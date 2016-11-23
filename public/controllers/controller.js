@@ -46,4 +46,46 @@ $scope.deselect = function() {
   $scope.contact = "";
 }
 
+var refresh = function() {
+  $http.get('/skills').success(function(response) {
+    console.log("I got the data I requested");
+    $scope.skills = response;
+    $scope.skills = "";
+  });
+};
+
+refresh();
+
+$scope.addContact = function() {
+  console.log($scope.skills);
+  $http.post('/skills', $scope.skills).success(function(response) {
+    console.log(response);
+    refresh();
+  });
+};
+
+$scope.remove = function(id) {
+  console.log(id);
+  $http.delete('/skills/' + id).success(function(response) {
+    refresh();
+  });
+};
+
+$scope.edit = function(id) {
+  console.log(id);
+  $http.get('/skills/' + id).success(function(response) {
+    $scope.skills = response;
+  });
+};  
+
+$scope.update = function() {
+  console.log($scope.skills._id);
+  $http.put('/skills/' + $scope.skills._id, $scope.skills).success(function(response) {
+    refresh();
+  })
+};
+
+$scope.deselect = function() {
+  $scope.skills = "";
+}
 }]);﻿
